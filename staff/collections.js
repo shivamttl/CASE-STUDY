@@ -1,5 +1,5 @@
-const mongoose =require("mongoose");
-mongoose.model("Staff",{
+const mongoose = require("mongoose");
+var collection=mongoose.model("Staff", {
     name: {
         type: String,
         require: true
@@ -12,7 +12,7 @@ mongoose.model("Staff",{
         type: String,
         require: true
     },
-    desingnation: {
+    designation: {
         type: String,
         require: true
     },
@@ -33,3 +33,4 @@ mongoose.model("Staff",{
         require: true
     }
 });
+module.exports= collection;

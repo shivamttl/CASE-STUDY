@@ -1,20 +1,32 @@
 const express = require('express');
 const app = express.Router();
-const mongoose = require("mongoose");
-const dataBase = mongoose.model("Staff");
+const dataBase = require("../collections");
+
+// test data
+// {
+//     "name": "shiva",
+//     "empid": 007,
+//     "role": "owner",
+//     "designation": "owner",
+//     "salary": 10000,
+//     "age": 24,
+//     "username": "username",
+//     "password": "password"
+// }
 //post (create)
 app.post('/create', (req, res) => {
-    var newData = {
-        name: req.body.name,
-        empid: req.body.quantity,
-        role: req.body.role,
-        desingnation: req.body.desingnation,
-        salary: req.body.salary,
-        age: req.body.age,
-        username: req.body.username,
-        password: req.body.password
-    }
-    var data = new dataBase(newData)
+    // var newData = {
+    //     name: req.body.name,
+    //     empid: req.body.empid,
+    //     role: req.body.role,
+    //     designation: req.body.designation,
+    //     salary: req.body.salary,
+    //     age: req.body.age,
+    //     username: req.body.username,
+    //     password: req.body.password
+    // }
+    // use newData in place of req.body
+    var data = new dataBase(req.body);
     data.save().then(() => {
         console.log("new data created")
     }).catch((err) => {
@@ -22,7 +34,7 @@ app.post('/create', (req, res) => {
     })
     console.log(req.body);
     res.send("data sent")
-})
+});
 
 //get all
 app.get('/read', (req, res) => {
@@ -31,7 +43,7 @@ app.get('/read', (req, res) => {
     }).catch(err => {
         throw err;
     })
-})
+});
 
 //get by id
 app.get('/read/:id', (req, res) => {
@@ -46,12 +58,11 @@ app.get('/read/:id', (req, res) => {
             throw err;
         }
     })
-})
+});
 
 //put update
 app.put("/update/:name", (req, res) => {
-    var itemName = req.params.name;
-    dataBase.findByIdAndUpdate(itemName, req.body).then((items) => {
+    dataBase.findByIdAndUpdate(req.params.name, req.body).then((items) => {
         res.send(items);
     }).catch((err) => {
         console.log(err);
@@ -66,7 +77,7 @@ app.delete('/delete/:id', (req, res) => {
         }
     })
     res.send("deleted");
-})
+});
 
 // //delete all
 // app.delete('/inventory', (req, res) => {

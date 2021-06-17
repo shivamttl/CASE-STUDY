@@ -5,9 +5,6 @@ app.use(bodyParser.json());
 const mongoose = require("mongoose");
 const routes=require('./routes/api');
 app.use('/room',routes);
-require("./collections");
-const roomCollection = mongoose.model("Room");
-
 mongoose.connect("mongodb+srv://admin:admin@cluster0.clq6u.mongodb.net/Room", () => {
     console.log("Room database connected");
 });

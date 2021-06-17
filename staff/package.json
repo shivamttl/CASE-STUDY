@@ -1,11 +1,10 @@
 {
-  "name": "owner",
+  "name": "staff",
   "version": "1.0.0",
-  "description": "",
-  "main": "owner.js",
+  "main": "staff.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "nodemon": "./node_modules/.bin/nodemon"
+    "nodemon": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +16,6 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mongoose": "^5.12.14"
-  }
+  },
+  "description": ""
 }

@@ -1,11 +1,24 @@
-const mongoose =require("mongoose");
-mongoose.model("Payment",{
-    name: {
+const mongoose = require("mongoose");
+var collection=mongoose.model("Payment", {
+    roomNumber: {
+        type: Number,
+        require: true
+    },
+    mode: {
         type: String,
         require: true
     },
-    quantity: {
+    amount: {
         type: Number,
+        require: true
+    },
+    date: {
+        type: String,
+        require: true
+    },
+    time: {
+        type: String,
         require: true
     }
 });
+module.exports= collection;

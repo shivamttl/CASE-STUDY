@@ -1,21 +1,25 @@
 const mongoose =require("mongoose");
-mongoose.model("Room",{
-    name: {
+var collection=mongoose.model("Room",{
+    type: {
         type: String,
         require: true
     },
-    quantity: {
+    number: {
         type: Number,
         require: true
+    },
+    rate: {
+        type: Number,
+        require: true
+    },   
+    size: {
+        type: Number,
+        require: true
+    },
+    available: {
+        type: Boolean,
+        require: false,
+        default: true
     }
 });
-// mongoose.model("Guest",{
-//     name: {
-//         type: String,
-//         require: true
-//     },
-//     quantity: {
-//         type: Number,
-//         require: true
-//     }
-// });
+module.exports= collection;
