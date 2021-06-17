@@ -4,15 +4,15 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 const mongoose = require("mongoose");
 const routes=require('./routes/api');
-app.use('/owner',routes);
+app.use('/staff',routes);
 require("./collections");
 const staffCollection = mongoose.model("Staff");
 
-mongoose.connect("mongodb+srv://admin:admin@cluster0.clq6u.mongodb.net/Hotel", () => {
-    console.log("Inventory database connected");
+mongoose.connect("mongodb+srv://admin:admin@cluster0.clq6u.mongodb.net/Staff", () => {
+    console.log("Staff database connected");
 });
 
 // listen for requests
 app.listen(process.env.port || 4000, function(){
-    console.log('OWNER SERVER UP & RUNNING');
+    console.log('STAFF SERVER UP & RUNNING');
 });
