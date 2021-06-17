@@ -13,6 +13,6 @@ mongoose.connect("mongodb+srv://admin:admin@cluster0.clq6u.mongodb.net/Payment",
 });
 
 // listen for requests
-app.listen(process.env.port || 4000, function(){
+app.listen(process.env.port || 5000, function(){
     console.log('Payment SERVER UP & RUNNING');
 });

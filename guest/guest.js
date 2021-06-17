@@ -13,6 +13,6 @@ mongoose.connect("mongodb+srv://admin:admin@cluster0.clq6u.mongodb.net/Guest", (
 });
 
 // listen for requests
-app.listen(process.env.port || 4000, function(){
+app.listen(process.env.port || 1000, function(){
     console.log('Guest SERVER UP & RUNNING');
 });
