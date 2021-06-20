@@ -1,24 +1,91 @@
-const express = require ('express');
-const router = express.Router();
+const express = require('express');
+const app = express.Router();
+const dataBase = require("../collections");
 
-// get a list of ninjas from the db
-router.get('/ninjas', function(req, res){
-    res.send({type: 'GET is set'});
+// test data
+// {
+//     "roomNumber" : 750,
+//     "guests" : 2,
+//     "personal":{
+//         "name": "shiva",
+//         "address":"ghaziabad",
+//         "identity":"dlepm1452m",
+//         "phone": 8800972395
+//     },
+//     "timeline" : {
+//         "timeIn": "entry",
+//         "timeOut": "exit",
+//         "days": 2
+//     },
+//     "payment":{
+//         "total": 1550,
+//         "paid": 500,
+//         "balance":1050
+//     }
+// }
+//post (create)
+app.post('/create', (req, res) => {
+
+    var data = new dataBase(req.body);
+    data.save().then(() => {
+        console.log("new data created")
+    }).catch((err) => {
+        throw err;
+    })
+    console.log(req.body);
+    res.send("data sent")
 });
 
-// add a new ninja to the db
-router.post('/ninjas', function(req, res){
-    res.send({type: 'POST'});
+//get all
+app.get('/read', (req, res) => {
+    dataBase.find().then((items) => {
+        res.json(items)
+    }).catch(err => {
+        throw err;
+    })
 });
 
-// update a ninja in the db
-router.put('/ninjas/:id', function(req, res){
-    res.send({type: 'PUT'});
+//get by id
+app.get('/read/:id', (req, res) => {
+    dataBase.findById(req.params.id).then((data) => {
+        if (data) {
+            res.json(data)
+        } else {
+            res.sendStatus(404);
+        }
+    }).catch((err) => {
+        if (err) {
+            throw err;
+        }
+    })
 });
 
-// delete a ninja from the db
-router.delete('/ninjas/:id', function(req, res){
-    res.send({type: 'DELETE'});
+//put update
+app.put("/update/:name", (req, res) => {
+    dataBase.findByIdAndUpdate(req.params.name, req.body).then((items) => {
+        res.send(items);
+    }).catch((err) => {
+        console.log(err);
+    })
 });
 
-module.exports = router;
+//delete by id
+app.delete('/delete/:id', (req, res) => {
+    dataBase.findByIdAndRemove({ _id: req.params.id }).then(console.log("deleted")).catch((err) => {
+        if (err) {
+            throw err;
+        }
+    })
+    res.send("deleted");
+});
+
+// //delete all
+// app.delete('/inventory', (req, res) => {
+//     dataBase.remove().then(() => {
+//         console.log("removed all");
+//         res.send("deleted all");
+//     }).catch(err => {
+//         throw err;
+//     })
+// })
+module.exports = app;
