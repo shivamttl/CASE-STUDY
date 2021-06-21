@@ -18,12 +18,9 @@ app.post('/create', (req, res) => {
     // var newData = {
     //     name: req.body.name,
     //     empid: req.body.empid,
-    //     role: req.body.role,
     //     designation: req.body.designation,
     //     salary: req.body.salary,
     //     age: req.body.age,
-    //     username: req.body.username,
-    //     password: req.body.password
     // }
     // use newData in place of req.body
     var data = new dataBase(req.body);

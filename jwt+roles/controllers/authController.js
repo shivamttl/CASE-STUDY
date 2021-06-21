@@ -41,6 +41,7 @@ const createToken = (id) => {
   });
 };
 
+
 // controller actions
 module.exports.signup_get = (req, res) => {
   res.render('signup'); //finds in views folder
@@ -49,6 +50,50 @@ module.exports.signup_get = (req, res) => {
 module.exports.login_get = (req, res) => {
   res.render('login');
 }
+//showusers and createuser are for swagger only
+module.exports.showusers = (req, res) => {
+  dataBase.find().then((items) => {
+      res.json(items)
+  }).catch(err => {
+      throw err;
+  })
+}
+module.exports.showuser = (req, res) => {
+  dataBase.findById(req.params.id).then((data) => {
+    if (data) {
+        res.json(data)
+    } else {
+        res.sendStatus(404);
+    }
+}).catch((err) => {
+    if (err) {
+        throw err;
+    }
+})
+}
+
+module.exports.deleteuser = (req, res) => {
+  dataBase.findByIdAndRemove({ _id: req.params.id }).then(console.log("deleted")).catch((err) => {
+      if (err) {
+          throw err;
+      }
+  })
+  res.send("deleted");
+}
+
+
+
+module.exports.createuser = (req, res) => {
+  var data = new dataBase(req.body);
+  data.save().then(() => {
+      console.log("new data created")
+  }).catch((err) => {
+      throw err;
+  })
+  console.log(req.body);
+  res.send("data sent")
+}
+
 
 module.exports.signup_post = async (req, res) => {
   const { email, password,role } = req.body; //req.body contains data passed by user

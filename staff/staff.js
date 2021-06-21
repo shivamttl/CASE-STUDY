@@ -6,6 +6,10 @@ const mongoose = require("mongoose");
 const routes=require('./routes/api');
 app.use('/staff',routes);
 
+const swaggerUi = require("swagger-ui-express"),
+swaggerDocument = require("./swagger.json")
+app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerDocument));
+
 mongoose.connect("mongodb+srv://admin:admin@cluster0.clq6u.mongodb.net/Staff", () => {
     console.log("Staff database connected");
 });

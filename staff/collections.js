@@ -8,10 +8,6 @@ var collection=mongoose.model("Staff", {
         type: Number,
         require: true
     },
-    role: {
-        type: String,
-        require: true
-    },
     designation: {
         type: String,
         require: true
@@ -22,14 +18,6 @@ var collection=mongoose.model("Staff", {
     },
     age:{
         type: Number,
-        require: true
-    },
-    username: {
-        type: String,
-        require: true
-    },
-    password: {
-        type: String,
         require: true
     }
 });

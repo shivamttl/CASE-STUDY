@@ -11,13 +11,16 @@ app.use(express.static('public')); //to serve static files in browser (stored in
 app.use(express.json());  // used to parse json object passed by user to be used in code.(req object)
 app.use(cookieParser());
 
+const swaggerUi = require("swagger-ui-express"),
+swaggerDocument = require("./swagger.json")
+app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 // view engine
 app.set('view engine', 'ejs');
 
 // database connection
 const dbURI = 'mongodb+srv://admin:admin@cluster0.clq6u.mongodb.net/JWT';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
-  .then((result) => app.listen(3000))
+  .then((result) => app.listen(7000))
   .catch((err) => console.log(err));
 
 // routes
