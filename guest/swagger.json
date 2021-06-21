@@ -1,0 +1,153 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "hotel management",
+      "description": "My Project Application API"
+    },
+    "host": "localhost:1000",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "guest Management",
+        "description": "API for RECEPTIONIST in the system"
+      }
+    ],
+    "paths": {
+      "/guest/update/{id}": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of user that we want to find",
+            "type": "string"
+          }
+        ],
+        "put": {
+          "summary": "Update user with give ID",
+          "tags": ["guest Management"],
+          "parameters": [
+            {
+              "name": "guest",
+              "in": "body",
+              "description": "User with new values of properties"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User is updated",
+              "schema": {
+                "$ref": "#/definitions/guest"
+              }
+            }
+          }
+        }
+      },
+      "/guest/delete/{id}": {
+        "delete": {
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "ID of user that we want to find",
+              "type": "string"
+            }
+          ],
+          "summary": "Delete user with given ID",
+          "tags": ["guest Management"],
+          "responses": {
+            "200": {
+              "description": "User is deleted",
+              "schema": {
+                "$ref": "#/definitions/guest"
+              }
+            }
+          }
+        }
+      },
+      "/guest/read/{id}": {
+        "get":{
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "ID of user that we want to find",
+              "type": "string"
+            }
+          ],
+          "summary": "find user with given ID",
+          "tags": ["guest Management"],
+          "responses": {
+            "200": {
+              "description": "User Found",
+              "schema": {
+                "$ref": "#/definitions/guest"
+              }
+            }
+          }
+        }
+      },
+      "/guest/read": {
+        "get": {
+          "tags": ["guest Management"],
+          "summary": "Get all users in system",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/guest/create":{
+        "post": {
+          "tags": ["guest Management"],
+          "description": "Create new user in system",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User that we want to create",
+              "schema": {
+                "$ref": "#/definitions/guest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/guest"
+              }
+            }
+          }
+        } 
+      }
+    },
+    "definitions": {
+      "guest": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "empid": {
+            "type": "number"
+          },
+          "designation": {
+            "type": "string"
+          },
+          "salary": {
+            "type": "number"
+          },
+          "age": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+
+
+

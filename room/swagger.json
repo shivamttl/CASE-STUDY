@@ -1,0 +1,153 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "hotel management",
+      "description": "My Project Application API"
+    },
+    "host": "localhost:2000",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "room Management",
+        "description": "API for MANAGERS in the system"
+      }
+    ],
+    "paths": {
+      "/room/update/{id}": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of user that we want to find",
+            "type": "string"
+          }
+        ],
+        "put": {
+          "summary": "Update user with give ID",
+          "tags": ["room Management"],
+          "parameters": [
+            {
+              "name": "room",
+              "in": "body",
+              "description": "User with new values of properties"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User is updated",
+              "schema": {
+                "$ref": "#/definitions/room"
+              }
+            }
+          }
+        }
+      },
+      "/room/delete/{id}": {
+        "delete": {
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "ID of user that we want to find",
+              "type": "string"
+            }
+          ],
+          "summary": "Delete user with given ID",
+          "tags": ["room Management"],
+          "responses": {
+            "200": {
+              "description": "User is deleted",
+              "schema": {
+                "$ref": "#/definitions/room"
+              }
+            }
+          }
+        }
+      },
+      "/room/read/{id}": {
+        "get":{
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "ID of user that we want to find",
+              "type": "string"
+            }
+          ],
+          "summary": "find user with given ID",
+          "tags": ["room Management"],
+          "responses": {
+            "200": {
+              "description": "User Found",
+              "schema": {
+                "$ref": "#/definitions/room"
+              }
+            }
+          }
+        }
+      },
+      "/room/read": {
+        "get": {
+          "tags": ["room Management"],
+          "summary": "Get all users in system",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/room/create":{
+        "post": {
+          "tags": ["room Management"],
+          "description": "Create new user in system",
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User that we want to create",
+              "schema": {
+                "$ref": "#/definitions/room"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "New user is created",
+              "schema": {
+                "$ref": "#/definitions/room"
+              }
+            }
+          }
+        } 
+      }
+    },
+    "definitions": {
+      "room": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "empid": {
+            "type": "number"
+          },
+          "designation": {
+            "type": "string"
+          },
+          "salary": {
+            "type": "number"
+          },
+          "age": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+
+
+

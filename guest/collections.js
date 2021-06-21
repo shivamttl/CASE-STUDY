@@ -13,7 +13,7 @@ var collection = mongoose.model("Guest", {
             type: String,
             require: true
         },
-        address: {
+        email: {
             type: String,
             require: true
         },
