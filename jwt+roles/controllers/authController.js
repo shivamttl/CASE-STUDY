@@ -131,3 +131,10 @@ module.exports.logout_get = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
   res.redirect('/');
 }
+module.exports.update =  (req, res) => {
+  dataBase.findByIdAndUpdate(req.params.name, req.body).then((items) => {
+      res.send(items);
+  }).catch((err) => {
+      console.log(err);
+  })
+}
