@@ -26,10 +26,10 @@ module.exports.create =  (req, res) => {
     data.save().then(() => {
         console.log("new data created")
     }).catch((err) => {
-        throw err;
+        res.sendStatus(404);
     })
     console.log(req.body);
-    res.send("data sent")
+    res.send("data sent");
 }
 
 //get all
@@ -51,7 +51,7 @@ module.exports.readOne =  (req, res) => {
         }
     }).catch((err) => {
         if (err) {
-            throw err;
+            res.sendStatus(404);
         }
     })
 }
@@ -61,7 +61,9 @@ module.exports.update =  (req, res) => {
     dataBase.findByIdAndUpdate(req.params.name, req.body).then((items) => {
         res.send(items);
     }).catch((err) => {
-        console.log(err);
+        res.sendStatus(404);
+        throw err;
+
     })
 }
 
@@ -69,7 +71,8 @@ module.exports.update =  (req, res) => {
 module.exports.delete =  (req, res) => {
     dataBase.findByIdAndRemove({ _id: req.params.id }).then(console.log("deleted")).catch((err) => {
         if (err) {
-            throw err;
+            res.sendStatus(404);
+              throw err;
         }
     })
     res.send("deleted");
