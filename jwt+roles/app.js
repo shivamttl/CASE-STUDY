@@ -2,9 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
-const { requireAuth, checkUser } = require('./middleware/authMiddleware');
+const { requireAuth1,requireAuth2,requireAuth3, checkUser } = require('./middleware/authMiddleware');
 const axios=require('axios');
 const app = express();
+
+// axios.get('http://localhost:4000/staff/read/').then(resp => {
+
+//     console.log(resp.data);
+// });
 
 // middleware
 app.use(express.static('public')); //to serve static files in browser (stored in public folder)
@@ -27,10 +32,9 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 app.get('*', checkUser); //check every link
 app.get('/', (req, res) => res.render('home')); //render home view
 
-app.get('/reception', (req, res) => res.render('reception')); //render home view
-app.get('/manager', (req, res) => res.render('manager')); //render home view
-app.get('/owner', (req, res) => res.render('owner')); //render home view
+app.get('/reception', requireAuth1,(req, res) => res.render('reception')); //render home view
+app.get('/manager', requireAuth2, (req, res) => res.render('manager')); //render home view
+app.get('/owner',  requireAuth3, (req, res) => res.render('owner')); //render home view
 
-app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies')); //render smothie view
 app.use(authRoutes);
 //requireAuth will check the tokken validation 

@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
-  let errors = { email: '', password: '' }; 
+  let errors = { email: '', password: '' };
 
   // incorrect email
   if (err.message === 'incorrect email') {
@@ -35,10 +35,28 @@ const handleErrors = (err) => {
 
 // create json web token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
-  return jwt.sign({ id }, 'net ninja secret', { //id is payload next is secret
-    expiresIn: maxAge
-  });
+const createToken = (id, role) => {
+  // return jwt.sign({ id }, 'hotel management', { //id is payload next is secret
+  //   expiresIn: maxAge
+  // });
+  if (role == "reception") {
+    return jwt.sign({ id }, 'reception', { //id is payload next is secret
+      expiresIn: maxAge
+    });
+  } else {
+    if (role == "manager") {
+      return jwt.sign({ id }, 'manager', { //id is payload next is secret
+        expiresIn: maxAge
+      });
+    } else {
+      if (role == "owner") {
+        return jwt.sign({ id }, 'owner', { //id is payload next is secret
+          expiresIn: maxAge
+        });
+      }
+    }
+  }
+
 };
 
 
@@ -53,30 +71,30 @@ module.exports.login_get = (req, res) => {
 //showusers and createuser are for swagger only
 module.exports.showusers = (req, res) => {
   dataBase.find().then((items) => {
-      res.json(items)
+    res.json(items)
   }).catch(err => {
-      throw err;
+    throw err;
   })
 }
 module.exports.showuser = (req, res) => {
   dataBase.findById(req.params.id).then((data) => {
     if (data) {
-        res.json(data)
+      res.json(data)
     } else {
-        res.sendStatus(404);
+      res.sendStatus(404);
     }
-}).catch((err) => {
+  }).catch((err) => {
     if (err) {
-        throw err;
+      throw err;
     }
-})
+  })
 }
 
 module.exports.deleteuser = (req, res) => {
   dataBase.findByIdAndRemove({ _id: req.params.id }).then(console.log("deleted")).catch((err) => {
-      if (err) {
-          throw err;
-      }
+    if (err) {
+      throw err;
+    }
   })
   res.send("deleted");
 }
@@ -86,9 +104,9 @@ module.exports.deleteuser = (req, res) => {
 module.exports.createuser = (req, res) => {
   var data = new dataBase(req.body);
   data.save().then(() => {
-      console.log("new data created")
+    console.log("new data created")
   }).catch((err) => {
-      throw err;
+    throw err;
   })
   console.log(req.body);
   res.send("data sent")
@@ -96,19 +114,19 @@ module.exports.createuser = (req, res) => {
 
 
 module.exports.signup_post = async (req, res) => {
-  const { email, password,role } = req.body; //req.body contains data passed by user
+  const { email, password, role } = req.body; //req.body contains data passed by user
 
   try {
-    const user = await dataBase.create({ email, password ,role}); //sends data to databse
-    // const token = createToken(user._id); //creating jwt at the time of signup (to be removed for case study)
+    const user = await dataBase.create({ email, password, role }); //sends data to databse
+    // const token = createToken(user._id); //creating jwt at the time of signup (to be removed for case study as no need to create tokken)
     // res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(201).json({ user: user._id });
   }
-  catch(err) {
+  catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
- 
+
 }
 
 module.exports.login_post = async (req, res) => {
@@ -116,10 +134,10 @@ module.exports.login_post = async (req, res) => {
 
   try {
     const user = await dataBase.login(email, password); //cheching email and password in database
-    const token = createToken(user._id);
+    const token = createToken(user._id, user.role);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json({ user: user.role});
-  } 
+    res.status(200).json({ user: user.role });
+  }
   catch (err) {
     const errors = handleErrors(err);// to display at html
     res.status(400).json({ errors });
@@ -131,10 +149,10 @@ module.exports.logout_get = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
   res.redirect('/');
 }
-module.exports.update =  (req, res) => {
+module.exports.update = (req, res) => {
   dataBase.findByIdAndUpdate(req.params.name, req.body).then((items) => {
-      res.send(items);
+    res.send(items);
   }).catch((err) => {
-      console.log(err);
+    console.log(err);
   })
 }

@@ -1,39 +1,84 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const requireAuth = (req, res, next) => {
+const requireAuth1 = (req, res, next) => {
   const token = req.cookies.jwt;
 
   // check json web token exists & is verified
   if (token) {
-    jwt.verify(token, 'net ninja secret', (err, decodedToken) => {
+    jwt.verify(token, 'reception', (err, decodedToken) => {
       if (err) {
         console.log(err.message);
-        res.redirect('/login'); //if token is not verified redirect to login
+        res.redirect('/logout'); //if token is not verified redirect to login
       } else {
-        console.log(decodedToken);
         next();
       }
     });
   } else {
-    res.redirect('/login');
+    res.redirect('/logout');
   }
 };
+const requireAuth2 = (req, res, next) => {
+  const token = req.cookies.jwt;
 
+  // check json web token exists & is verified
+  if (token) {
+    jwt.verify(token, 'manager', (err, decodedToken) => {
+      if (err) {
+        console.log(err.message);
+        res.redirect('/logout'); //if token is not verified redirect to login
+      } else {
+        next();
+      }
+    });
+  } else {
+    res.redirect('/logout');
+  }
+};
+const requireAuth3 = (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  // check json web token exists & is verified
+  if (token) {
+    jwt.verify(token, 'owner', (err, decodedToken) => {
+      if (err) {
+        console.log(err.message);
+        res.redirect('/logout'); //if token is not verified redirect to login
+      } else {
+        next();
+      }
+    });
+  } else {
+    res.redirect('/logout');
+  }
+};
 // check current user
 const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(token, 'net ninja secret', async (err, decodedToken) => {
+    jwt.verify(token, 'reception', async (err, decodedToken) => {
       if (err) {
-        res.locals.user = null;
-        next();
+        jwt.verify(token, 'manager', async (err, decodedToken) => {
+          if (err) {
+            jwt.verify(token, 'owner', async (err, decodedToken) => {
+              if (err) {
+                res.locals.user = null;
+                next();
+              } else {
+                let user = await User.findById(decodedToken.id);
+                res.locals.user = user; //to show the user object in the frontend
+                next();
+              }
+            });
+          } else {
+            let user = await User.findById(decodedToken.id);
+            res.locals.user = user; //to show the user object in the frontend
+            next();
+          }
+        });
       } else {
         let user = await User.findById(decodedToken.id);
-        res.locals.user = user;
-        if(user.role=="reception"){
-          
-        }
+        res.locals.user = user; //to show the user object in the frontend
         next();
       }
     });
@@ -44,4 +89,4 @@ const checkUser = (req, res, next) => {
 };
 
 
-module.exports = { requireAuth, checkUser };
+module.exports = { requireAuth1, requireAuth2 ,requireAuth3, checkUser };
