@@ -15,6 +15,7 @@ swaggerDocument = require("./swagger.json")
 app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 
 // listen for requests
-app.listen(process.env.port || 5000, function(){
+var server=app.listen(process.env.port || 5000, function(){
     console.log('Payment SERVER UP & RUNNING');
 });
+module.exports=server;

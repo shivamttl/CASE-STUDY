@@ -12,6 +12,7 @@ const swaggerUi = require("swagger-ui-express"),
 swaggerDocument = require("./swagger.json")
 app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 // listen for requests
-app.listen(process.env.port || 3000, function(){
+var server=app.listen(process.env.port || 3000, function(){
     console.log('INVENTORY SERVER UP & RUNNING');
 });
+module.exports=server;

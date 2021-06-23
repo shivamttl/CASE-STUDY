@@ -13,8 +13,8 @@ swaggerDocument = require("./swagger.json");
 const { default: axios } = require("axios");
 app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 // listen for requests
-app.listen(process.env.port || 2000, function(){
+var server=app.listen(process.env.port || 2000, function(){
     console.log('ROOM SERVER UP & RUNNING');
 });
-
+module.exports=server;
 // app.get('*', axios.get()); //check every link

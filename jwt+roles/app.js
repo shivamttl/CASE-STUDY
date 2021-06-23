@@ -23,11 +23,22 @@ app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerDocument));
 app.set('view engine', 'ejs');
 
 // database connection
-const dbURI = 'mongodb+srv://admin:admin@cluster0.clq6u.mongodb.net/JWT';
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
-  .then((result) => app.listen(7000))
-  .catch((err) => console.log(err));
+// const dbURI = 'mongodb+srv://admin:admin@cluster0.clq6u.mongodb.net/JWT';
+// mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
+//   .then((result) => app.listen(7000))
+//   .catch((err) => console.log(err));
 
+
+
+  mongoose.connect("mongodb+srv://admin:admin@cluster0.clq6u.mongodb.net/JWT", () => {
+    console.log("database connected");
+});
+
+// listen for requests
+var server=app.listen(process.env.port || 7000, function(){
+    console.log('SERVER UP & RUNNING');
+});
+module.exports=server;
 // routes
 app.get('*', checkUser); //check every link
 app.get('/', (req, res) => res.render('home')); //render home view
@@ -38,3 +49,4 @@ app.get('/owner',  requireAuth3, (req, res) => res.render('owner')); //render ho
 
 app.use(authRoutes);
 //requireAuth will check the tokken validation 
+module.exports=server;
