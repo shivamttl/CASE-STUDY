@@ -21,7 +21,7 @@ describe('Get /showusers',()=>{
     });
     it("It should NOT GET all the tasks", (done) => {
         chai.request(server)
-            .get("/showusers")
+            .get("/showuser")
             .end((err, response) => {
                 response.should.have.status(404);
             done();

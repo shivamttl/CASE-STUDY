@@ -49,4 +49,3 @@ app.get('/owner',  requireAuth3, (req, res) => res.render('owner')); //render ho
 
 app.use(authRoutes);
 //requireAuth will check the tokken validation 
-module.exports=server;
