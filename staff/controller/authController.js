@@ -57,6 +57,7 @@ module.exports.read =  (req, res) => {
     dataBase.find().then((items) => {
         res.json(items)
     }).catch(err => {
+        res.sendStatus(404);
         throw err;
     })
 }

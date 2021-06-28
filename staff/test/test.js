@@ -52,24 +52,23 @@ describe("GET /staff/read/:id", () => {
 
 });
 describe("POST /staff/create", () => {
-    // it("It should POST a new task", (done) => {
-    //     const task = {
-    //         name: "Task 4",
-    //         empid: 20,
-    //         designation: "owner",
-    //         salary: 500,
-    //         age: 50
-    //     };
-    //     chai.request(server)                
-    //         .post("/staff/create")
-    //         .send(task)
-    //         .end((err, response) => {
-    //             response.should.have.status(200);
-    //             response.body.should.be.a('object');
-    //             response.body.should.have.property('name').eq("Task 4");
-    //         done();
-    //         });
-    // });
+    it("It should POST a new task", (done) => {
+        const task = {
+            name: "Task 4",
+            empid: 20,
+            designation: "owner",
+            salary: 500,
+            age: 50
+        };
+        chai.request(server)                
+            .post("/staff/create")
+            .send(task)
+            .end((err, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('object');
+            done();
+            });
+    });
 
     it("It should NOT POST a new task without the name property", (done) => {
         const task = {
@@ -103,17 +102,16 @@ describe("POST /staff/create", () => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
                 response.body.should.have.property('_id').eq("60d246cb6d38af4e5809f2e5");
-                response.body.should.have.property('name').eq("Task 5");
             done();
             });
     });
 
     it("It should NOT PUT ", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e7";
+        const taskId = "60d2e7";
         const task = {
-            name: "Task 5",
+            name: "Task 6",
             empid: 20,
-            designation: "owner",
+            designation: "ownerddd",
              salary: 500,
              age: 50
         };
@@ -121,7 +119,7 @@ describe("POST /staff/create", () => {
             .put("/staff/update/" + taskId)
             .send(task)
             .end((err, response) => {
-                response.should.have.status(400);
+                response.should.have.status(404);
             done();
             });
     });        
@@ -144,9 +142,9 @@ describe("DELETE /staff/delete/:id", () => {
     });
 
     it("It should NOT DELETE a task that is not in the database", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e9";
+        const taskId = "60d246cb09f2e9";
         chai.request(server)                
-            .delete("/staff/delete/" + taskId)
+            .delete("/staff/delet/" + taskId)
             .end((err, response) => {
                 response.should.have.status(404);
             done();
