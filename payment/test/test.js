@@ -1,13 +1,8 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server=require("../payment")
-//const database = require("../routes/dbRoute");
-
 chai.should(); 
-// expect
-// assert
 chai.use(chaiHttp);
-//get farmer
 describe('Get /payment/read',()=>{
     it('it should get all data',(done)=>{
         chai.request(server)

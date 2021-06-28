@@ -1,13 +1,8 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server=require("../inventory")
-//const database = require("../routes/dbRoute");
-var assert = require("assert");
 chai.should(); 
-// expect
-// assert
 chai.use(chaiHttp);
-//get farmer
 describe('Get /inventory/read',()=>{
     it('it should get all data',(done)=>{
         chai.request(server)
@@ -15,7 +10,6 @@ describe('Get /inventory/read',()=>{
         .end((err,response)=>{
             response.should.have.status(200);
             response.body.should.be.a('array');
-            // response.body.length.should.be.eq(3);
         done();
         })
     });
@@ -28,11 +22,10 @@ describe('Get /inventory/read',()=>{
             });
     });
 
-
 });
 describe("GET /inventory/read/:id", () => {
     it("It should GET a task by ID", (done) => {
-        const taskId = "60cfa741b9cc9c42709cbd59";
+        const taskId = "60da13a0a77de412cca3d4a5";
         chai.request(server)                
             .get("/inventory/read/" + taskId)
             .end((err, response) => {
@@ -44,7 +37,7 @@ describe("GET /inventory/read/:id", () => {
             });
     }),
     it("It should NOT GET a task by ID", (done) => {
-        const taskId = "12355984589748";
+        const taskId = "123589748";
         chai.request(server)                
             .get("/inventory/read/" + taskId)
             .end((err, response) => {
@@ -55,23 +48,22 @@ describe("GET /inventory/read/:id", () => {
 
 });
 describe("POST /inventory/create", () => {
-    // it("It should POST a new task", (done) => {
-        // const task = {
-        //     name: "Task 4",
-        //     type: "chair",
-        //     quantity: 5,
-        //     roomNumber: 50
-        // };
-    //     chai.request(server)                
-    //         .post("/inventory/create")
-    //         .send(task)
-    //         .end((err, response) => {
-    //             response.should.have.status(200);
-    //             response.body.should.be.a('object');
-    //             response.body.should.have.property('name').eq("Task 4");
-    //         done();
-    //         });
-    // });
+    it("It should POST a new task", (done) => {
+        const task = {
+            name: "Task 4",
+            type: "chair",
+            quantity: 5,
+            roomNumber: 50
+        };
+        chai.request(server)                
+            .post("/inventory/create")
+            .send(task)
+            .end((err, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('object');
+            done();
+            });
+    });
 
     it("It should NOT POST a new task without the name property", (done) => {
         const task = {
@@ -90,7 +82,7 @@ describe("POST /inventory/create", () => {
      */
  describe("PUT /inventory/update/:name", () => {
     it("It should PUT an existing task", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e5";
+        const taskId = "60da13a0a77de412cca3d4a5";
         const task = {
             name: "Task 4",
             type: "chair",
@@ -103,14 +95,14 @@ describe("POST /inventory/create", () => {
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
-                response.body.should.have.property('_id').eq("60d246cb6d38af4e5809f2e5");
-                response.body.should.have.property('name').eq("Task 5");
+                response.body.should.have.property('_id').eq("60da13a0a77de412cca3d4a5");
+                response.body.should.have.property('name').eq("Task 4");
             done();
             });
     });
 
     it("It should NOT PUT ", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e7";
+        const taskId = "602e7";
         const task = {
             name: "Task 4",
             type: "chair",
@@ -121,7 +113,7 @@ describe("POST /inventory/create", () => {
             .put("/inventory/update/" + taskId)
             .send(task)
             .end((err, response) => {
-                response.should.have.status(400);
+                response.should.have.status(404);
             done();
             });
     });        
@@ -144,9 +136,9 @@ describe("DELETE /inventory/delete/:id", () => {
     });
 
     it("It should NOT DELETE a task that is not in the database", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e9";
+        const taskId = "60de9";
         chai.request(server)                
-            .delete("/inventory/delete/" + taskId)
+            .delete("/inventory/delet/" + taskId)
             .end((err, response) => {
                 response.should.have.status(404);
             done();
