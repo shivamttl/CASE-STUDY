@@ -1,13 +1,10 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server=require("../guest")
-//const database = require("../routes/dbRoute");
-var assert = require("assert");
+
 chai.should(); 
-// expect
-// assert
+
 chai.use(chaiHttp);
-//get farmer
 describe('Get /guest/read',()=>{
     it('it should get all data',(done)=>{
         chai.request(server)
@@ -15,7 +12,6 @@ describe('Get /guest/read',()=>{
         .end((err,response)=>{
             response.should.have.status(200);
             response.body.should.be.a('array');
-            // response.body.length.should.be.eq(3);
         done();
         })
     });
@@ -32,7 +28,7 @@ describe('Get /guest/read',()=>{
 });
 describe("GET /guest/read/:id", () => {
     it("It should GET a task by ID", (done) => {
-        const taskId = "60cfa741b9cc9c42709cbd59";
+        const taskId = "60d96667c2964d313023f7db";
         chai.request(server)                
             .get("/guest/read/" + taskId)
             .end((err, response) => {
@@ -44,7 +40,7 @@ describe("GET /guest/read/:id", () => {
             });
     }),
     it("It should NOT GET a task by ID", (done) => {
-        const taskId = "12355984589748";
+        const taskId = "12dfd35598458dsd9748";
         chai.request(server)                
             .get("/guest/read/" + taskId)
             .end((err, response) => {
@@ -55,34 +51,33 @@ describe("GET /guest/read/:id", () => {
 
 });
 describe("POST /guest/create", () => {
-    // it("It should POST a new task", (done) => {
-        // const task = {
-        //     roomNumber: 200,
-        //     guests: 2,
-        //     personal:{   name: "shiva",
-        //                  email:"dddf@gmail.com",
-        //                  identity:"fefeves",
-        //                  phone:543033554
-        //              },
-        //     timeline:{   timein: "shiva",
-        //                  timeout:"dddf@gmail.com",
-        //                  days:5
-        //              },
-        //     payment:{    total: 1500,
-        //                  paid:1000,
-        //                  balance:500,
-        //              },
-        // };
-    //     chai.request(server)                
-    //         .post("/guest/create")
-    //         .send(task)
-    //         .end((err, response) => {
-    //             response.should.have.status(200);
-    //             response.body.should.be.a('object');
-    //             response.body.should.have.property('name').eq("Task 4");
-    //         done();
-    //         });
-    // });
+    it("It should POST a new task", (done) => {
+        const task = {
+            roomNumber: 200,
+            guests: 2,
+            personal:{   name: "shiva",
+                         email:"dddf@gmail.com",
+                         identity:"fefeves",
+                         phone:543033554
+                     },
+            timeline:{   timein: "shiva",
+                         timeout:"dddf@gmail.com",
+                         days:5
+                     },
+            payment:{    total: 1500,
+                         paid:1000,
+                         balance:500,
+                     },
+        };
+        chai.request(server)                
+            .post("/guest/create")
+            .send(task)
+            .end((err, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('object');
+            done();
+            });
+    });
 
     it("It should NOT POST a new task without the name property", (done) => {
         const task = {
@@ -101,7 +96,7 @@ describe("POST /guest/create", () => {
      */
  describe("PUT /guest/update/:name", () => {
     it("It should PUT an existing task", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e5";
+        const taskId = "60d96667c2964d313023f7db";
         const task = {
             roomNumber: 200,
             guests: 2,
@@ -125,20 +120,19 @@ describe("POST /guest/create", () => {
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
-                response.body.should.have.property('_id').eq("60d246cb6d38af4e5809f2e5");
-                response.body.should.have.property('name').eq("Task 5");
+                response.body.should.have.property('_id').eq("60d96667c2964d313023f7db");
             done();
             });
     });
 
     it("It should NOT PUT ", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e7";
+        const taskId = "60d246cb6d38af4e58092e7"; //wrong
         const task = {
             roomNumber: 2000,
             guests: 2,
             personal:{   name: "shiva",
-                         email:"dddf@gmail.com",
-                         identity:"fefeves",
+                         email: "dddf@gmail.com",
+                         identity: "fefeves",
                          phone:543033554
                      },
             timeline:{   timein: "shiva",
@@ -154,7 +148,7 @@ describe("POST /guest/create", () => {
             .put("/guest/update/" + taskId)
             .send(task)
             .end((err, response) => {
-                response.should.have.status(400);
+                response.should.have.status(404);
             done();
             });
     });        
@@ -177,9 +171,9 @@ describe("DELETE /guest/delete/:id", () => {
     });
 
     it("It should NOT DELETE a task that is not in the database", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e9";
+        const taskId = "60d246cbd5809fe9";//wrong
         chai.request(server)                
-            .delete("/guest/delete/" + taskId)
+            .delete("/guest/delet/" + taskId)
             .end((err, response) => {
                 response.should.have.status(404);
             done();
