@@ -2,7 +2,6 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server=require("../app")
 //const database = require("../routes/dbRoute");
-var assert = require("assert");
 chai.should(); 
 // expect
 // assert

@@ -14,4 +14,5 @@ app.get('/showuser/:id', authController.showuser);
 app.post('/createuser', authController.createuser);
 app.delete('/delete/:id',authController.deleteuser);
 app.put('/update/:name', authController.update);
+
 module.exports = app;

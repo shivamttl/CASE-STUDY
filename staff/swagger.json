@@ -101,6 +101,17 @@
           }
         }
       },
+      "/staff/totalSalary": {
+        "get": {
+          "tags": ["Salary Report"],
+          "summary": "Get total Salary of the all staff",
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
       "/staff/create":{
         "post": {
           "tags": ["Staff Management"],

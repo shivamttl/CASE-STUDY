@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server=require("../payment")
 //const database = require("../routes/dbRoute");
-var assert = require("assert");
+
 chai.should(); 
 // expect
 // assert
@@ -32,14 +32,14 @@ describe('Get /payment/read',()=>{
 });
 describe("GET /payment/read/:id", () => {
     it("It should GET a task by ID", (done) => {
-        const taskId = "60cfa741b9cc9c42709cbd59";
+        const taskId = "60cbb031a52dd6251013d814";
         chai.request(server)                
             .get("/payment/read/" + taskId)
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
                 response.body.should.have.property('_id');
-                response.body.should.have.property('name');
+                response.body.should.have.property('mode');
             done();
             });
     }),
@@ -48,31 +48,31 @@ describe("GET /payment/read/:id", () => {
         chai.request(server)                
             .get("/payment/read/" + taskId)
             .end((err, response) => {
-                response.should.have.status(404);
+                response.should.have.status(400);
             done();
             });
     });
 
 });
 describe("POST /payment/create", () => {
-    // it("It should POST a new task", (done) => {
-        // const task = {
-        //     roomNumber: 50,
-        //     mode: "online",
-        //     amount: 500,
-        //     date: "500",
-        //     time: "50"
-        // };
-    //     chai.request(server)                
-    //         .post("/payment/create")
-    //         .send(task)
-    //         .end((err, response) => {
-    //             response.should.have.status(200);
-    //             response.body.should.be.a('object');
-    //             response.body.should.have.property('name').eq("Task 4");
-    //         done();
-    //         });
-    // });
+    it("It should POST a new task", (done) => {
+        const task = {
+            roomNumber: 50,
+            mode: "amit",
+            amount: 500,
+            date: "500",
+            time: "50"
+        };
+        chai.request(server)                
+            .post("/payment/create")
+            .send(task)
+            .end((err, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('object');
+                // response.body.should.have.property('_id');
+            done();
+            });
+    });
 
     it("It should NOT POST a new task without the name property", (done) => {
         const task = {
@@ -86,15 +86,13 @@ describe("POST /payment/create", () => {
             done();
             });
     });
-/**
-     * Test the PUT route
-     */
+});
  describe("PUT /payment/update/:name", () => {
     it("It should PUT an existing task", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e5";
+        const taskId = "60d85aa031ad441f5cadb066";
         const task = {
             roomNumber: 50,
-            mode: "online",
+            mode: "online_edited",
             amount: 500,
             date: "500",
             time: "50"
@@ -105,14 +103,14 @@ describe("POST /payment/create", () => {
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
-                response.body.should.have.property('_id').eq("60d246cb6d38af4e5809f2e5");
-                response.body.should.have.property('name').eq("Task 5");
+                response.body.should.have.property('_id').eq("60d85aa031ad441f5cadb066");
+                response.body.should.have.property('mode');
             done();
             });
     });
 
     it("It should NOT PUT ", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e7";
+        const taskId = "60d246cb6809f2e7";
         const task = {
             roomNumber: 50,
             mode: "online",
@@ -137,7 +135,7 @@ describe("POST /payment/create", () => {
  */
 describe("DELETE /payment/delete/:id", () => {
     it("It should DELETE an existing task", (done) => {
-        const taskId = "60d24630e962ea4bf8befe12";
+        const taskId = "60d86c3e1be1a64474a15ce9";
         chai.request(server)                
             .delete("/payment/delete/" + taskId)
             .end((err, response) => {
@@ -147,9 +145,9 @@ describe("DELETE /payment/delete/:id", () => {
     });
 
     it("It should NOT DELETE a task that is not in the database", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e9";
+        const taskId = "12558521";
         chai.request(server)                
-            .delete("/payment/delete/" + taskId)
+            .delete("/payment/delee/" + taskId)
             .end((err, response) => {
                 response.should.have.status(404);
             done();
@@ -158,7 +156,5 @@ describe("DELETE /payment/delete/:id", () => {
 
 });
 
-
-});
 
 

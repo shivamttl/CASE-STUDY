@@ -26,10 +26,11 @@ module.exports.readOne =  (req, res) => {
         if (data) {
             res.json(data)
         } else {
-            res.sendStatus(404);
+            res.sendStatus(400);
         }
     }).catch((err) => {
         if (err) {
+            res.sendStatus(400);
             throw err;
         }
     })
@@ -40,6 +41,7 @@ module.exports.update =  (req, res) => {
     dataBase.findByIdAndUpdate(req.params.name, req.body).then((items) => {
         res.send(items);
     }).catch((err) => {
+        res.sendStatus(400);
         console.log(err);
     })
 }
@@ -48,6 +50,7 @@ module.exports.update =  (req, res) => {
 module.exports.delete =  (req, res) => {
     dataBase.findByIdAndRemove({ _id: req.params.id }).then(console.log("deleted")).catch((err) => {
         if (err) {
+            res.sendStatus(400);
             throw err;
         }
     })

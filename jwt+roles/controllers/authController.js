@@ -1,6 +1,7 @@
 const dataBase = require("../models/User");
 const jwt = require('jsonwebtoken');
-
+const axios = require("axios");
+const { response } = require("express");
 // handle errors
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -34,7 +35,7 @@ const handleErrors = (err) => {
 }
 
 // create json web token
-const maxAge = 3 * 24 * 60 * 60;
+const maxAge = 1000 * 60 * 60; //milliseconds
 const createToken = (id, role) => {
   // return jwt.sign({ id }, 'hotel management', { //id is payload next is secret
   //   expiresIn: maxAge
@@ -135,7 +136,7 @@ module.exports.login_post = async (req, res) => {
   try {
     const user = await dataBase.login(email, password); //cheching email and password in database
     const token = createToken(user._id, user.role);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge });
     res.status(200).json({ user: user.role });
   }
   catch (err) {

@@ -1,5 +1,5 @@
 const dataBase = require("../collections");
-
+const axios=require("axios");
 module.exports.create =  (req, res) => {
     var data = new dataBase(req.body);
     data.save().then(() => {
@@ -53,5 +53,43 @@ module.exports.delete =  (req, res) => {
     })
     res.send("deleted");
 }
+
+module.exports.availableRoom = (req, res) => {
+    axios.get("http://localhost:2000/room/availableRoom").then((response) => {
+      var views = response.data;
+      res.send(views);
+    }).catch((err) => {
+      if (err)
+        throw err;
+    })
+  }
+  module.exports.occupiedRoom = (req, res) => {
+    axios.get("http://localhost:2000/room/occupiedRoom").then((response) => {
+      var views = response.data;
+      res.send(views);
+    }).catch((err) => {
+      if (err)
+        throw err;
+    })
+  }
+  module.exports.checkIn = (req, res) => {
+    const article={number:req.params.number};
+    axios.put("http://localhost:2000/room/checkIn"+req.params.number, article).then((response) => {
+      var views = response.data;
+      res.send(views);
+    }).catch((err) => {
+      if (err)
+        throw err;
+    })
+  }
+  module.exports.checkOut = (req, res) => {
+    axios.put("http://localhost:2000/room/checkOut"+req.params.number).then((response) => {
+      var views = response.data;
+      res.send(views);
+    }).catch((err) => {
+      if (err)
+        throw err;
+    })
+  }
 
 

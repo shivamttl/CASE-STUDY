@@ -31,6 +31,26 @@ module.exports.create =  (req, res) => {
     console.log(req.body);
     res.send("data sent");
 }
+//total salary
+module.exports.totalSalary =  (req, res) => {
+    dataBase.aggregate(
+        [
+          {
+            $group: {
+              _id: "$designation",  Total_Salary: {$sum: "$salary"}
+            }
+          }
+        ],
+        function(err, result) {
+          if (err) {
+            res.send(err);
+          } else {
+            res.json(result);
+          }
+        }
+      );
+
+    }
 
 //get all
 module.exports.read =  (req, res) => {
@@ -87,5 +107,3 @@ module.exports.delete =  (req, res) => {
 //         throw err;
 //     })
 // })
-
-
