@@ -5,6 +5,7 @@ module.exports.create = (req, res) => {
     data.save().then(() => {
         console.log("new data created")
     }).catch((err) => {
+        res.sendStatus(404);
         throw err;
     })
     console.log(req.body);
@@ -23,6 +24,7 @@ module.exports.roomReport = (req, res) => {
         ],
         function (err, result) {
             if (err) {
+                res.sendStatus(404);
                 res.send(err);
             } else {
                 res.json(result);
@@ -46,6 +48,7 @@ module.exports.availableRoom = (req, res) => {
     // );
     dataBase.find({ available: true }, function (err, result) {
         if (err) {
+            res.sendStatus(404);
             res.send(err);
         } else {
             res.json(result);
@@ -67,6 +70,7 @@ module.exports.occupiedRoom = (req, res) => {
     // );
     dataBase.find({ available: false }, function (err, result) {
         if (err) {
+            res.sendStatus(404);
             res.send(err);
         } else {
             res.json(result);
@@ -80,6 +84,7 @@ module.exports.checkIn = (req, res) => {
     .then((items) => {
         res.send(items);
     }).catch((err) => {
+        res.sendStatus(404);
         console.log(err);
     })
 }
@@ -90,6 +95,7 @@ module.exports.checkOut = (req, res) => {
     .then((items) => {
         res.send(items);
     }).catch((err) => {
+        res.sendStatus(404);
         console.log(err);
     })
 }
@@ -99,6 +105,7 @@ module.exports.read = (req, res) => {
     dataBase.find().then((items) => {
         res.json(items)
     }).catch(err => {
+        res.sendStatus(404);
         throw err;
     })
 }
@@ -113,6 +120,7 @@ module.exports.readOne = (req, res) => {
         }
     }).catch((err) => {
         if (err) {
+            res.sendStatus(404);
             throw err;
         }
     })
@@ -123,6 +131,7 @@ module.exports.update = (req, res) => {
     dataBase.findByIdAndUpdate(req.params.name, req.body).then((items) => {
         res.send(items);
     }).catch((err) => {
+        res.sendStatus(404);
         console.log(err);
     })
 }
@@ -131,6 +140,7 @@ module.exports.update = (req, res) => {
 module.exports.delete = (req, res) => {
     dataBase.findByIdAndRemove({ _id: req.params.id }).then(console.log("deleted")).catch((err) => {
         if (err) {
+            res.sendStatus(404);
             throw err;
         }
     })

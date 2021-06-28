@@ -32,19 +32,18 @@ describe('Get /room/read',()=>{
 });
 describe("GET /room/read/:id", () => {
     it("It should GET a task by ID", (done) => {
-        const taskId = "60cfa741b9cc9c42709cbd59";
+        const taskId = "60cba742b510e0236821e265";
         chai.request(server)                
             .get("/room/read/" + taskId)
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
                 response.body.should.have.property('_id');
-                response.body.should.have.property('name');
             done();
             });
     }),
     it("It should NOT GET a task by ID", (done) => {
-        const taskId = "12355984589748";
+        const taskId = "123559748";
         chai.request(server)                
             .get("/room/read/" + taskId)
             .end((err, response) => {
@@ -55,24 +54,23 @@ describe("GET /room/read/:id", () => {
 
 });
 describe("POST /room/create", () => {
-    // it("It should POST a new task", (done) => {
-        // const task = {
-        //     type: "Task",
-        //     number: 20,
-        //     rate: 500,
-        //     size: 2,
-        //     available: true
-        // };
-    //     chai.request(server)                
-    //         .post("/room/create")
-    //         .send(task)
-    //         .end((err, response) => {
-    //             response.should.have.status(200);
-    //             response.body.should.be.a('object');
-    //             response.body.should.have.property('name').eq("Task 4");
-    //         done();
-    //         });
-    // });
+    it("It should POST a new task", (done) => {
+        const task = {
+            type: "Task",
+            number: 20,
+            rate: 500,
+            size: 2,
+            available: true
+        };
+        chai.request(server)                
+            .post("/room/create")
+            .send(task)
+            .end((err, response) => {
+                response.should.have.status(200);
+                response.body.should.be.a('object');
+            done();
+            });
+    });
 
     it("It should NOT POST a new task without the name property", (done) => {
         const task = {
@@ -91,7 +89,7 @@ describe("POST /room/create", () => {
      */
  describe("PUT /room/update/:name", () => {
     it("It should PUT an existing task", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e5";
+        const taskId = "60da11200a99343f0499f995";
         const task = {
             type: "Task",
             number: 20,
@@ -105,14 +103,12 @@ describe("POST /room/create", () => {
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
-                response.body.should.have.property('_id').eq("60d246cb6d38af4e5809f2e5");
-                response.body.should.have.property('name').eq("Task 5");
             done();
             });
     });
 
     it("It should NOT PUT ", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e7";
+        const taskId = "602e7";
         const task = {
             type: "Task",
             number: 20,
@@ -124,7 +120,7 @@ describe("POST /room/create", () => {
             .put("/room/update/" + taskId)
             .send(task)
             .end((err, response) => {
-                response.should.have.status(400);
+                response.should.have.status(404);
             done();
             });
     });        
@@ -147,9 +143,9 @@ describe("DELETE /room/delete/:id", () => {
     });
 
     it("It should NOT DELETE a task that is not in the database", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e9";
+        const taskId = "6009";
         chai.request(server)                
-            .delete("/room/delete/" + taskId)
+            .delete("/room/delet/" + taskId)
             .end((err, response) => {
                 response.should.have.status(404);
             done();
