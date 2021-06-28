@@ -1,3 +1,4 @@
+var nodemailer = require('nodemailer');
 const dataBase = require("../models/User");
 const jwt = require('jsonwebtoken');
 const axios = require("axios");
@@ -116,11 +117,35 @@ module.exports.createuser = (req, res) => {
 
 module.exports.signup_post = async (req, res) => {
   const { email, password, role } = req.body; //req.body contains data passed by user
-
   try {
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'hotelcasestudy@gmail.com',
+        pass: 'casestudy2021'
+      }
+    });
+    
+    var mailOptions = {
+      from: 'hotelcasestudy@gmail.com',
+      to: email,
+      subject: 'Sending Email using Node.js',
+      // text: `sent ${email}  ${role}  ${password} from nodejs.`,
+      html: `<h1>Hi ${email} </h1><h2> Welcome as ${role}</h2> <p>Your Password:${password} </p> `        
+    };
     const user = await dataBase.create({ email, password, role }); //sends data to databse
     // const token = createToken(user._id); //creating jwt at the time of signup (to be removed for case study as no need to create tokken)
     // res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+    
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+
     res.status(201).json({ user: user._id });
   }
   catch (err) {
