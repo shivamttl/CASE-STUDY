@@ -75,6 +75,7 @@ module.exports.showusers = (req, res) => {
   dataBase.find().then((items) => {
     res.json(items)
   }).catch(err => {
+    res.sendStatus(404);
     throw err;
   })
 }
@@ -87,6 +88,7 @@ module.exports.showuser = (req, res) => {
     }
   }).catch((err) => {
     if (err) {
+      res.sendStatus(404);
       throw err;
     }
   })
@@ -95,6 +97,7 @@ module.exports.showuser = (req, res) => {
 module.exports.deleteuser = (req, res) => {
   dataBase.findByIdAndRemove({ _id: req.params.id }).then(console.log("deleted")).catch((err) => {
     if (err) {
+      res.sendStatus(404);
       throw err;
     }
   })
@@ -108,6 +111,7 @@ module.exports.createuser = (req, res) => {
   data.save().then(() => {
     console.log("new data created")
   }).catch((err) => {
+    res.sendStatus(404);
     throw err;
   })
   console.log(req.body);
@@ -140,6 +144,7 @@ module.exports.signup_post = async (req, res) => {
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
+        res.sendStatus(404);
         console.log(error);
       } else {
         console.log('Email sent: ' + info.response);
@@ -149,8 +154,9 @@ module.exports.signup_post = async (req, res) => {
     res.status(201).json({ user: user._id });
   }
   catch (err) {
+    res.sendStatus(404);
     const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    res.status(404).json({ errors });
   }
 
 }
@@ -166,7 +172,7 @@ module.exports.login_post = async (req, res) => {
   }
   catch (err) {
     const errors = handleErrors(err);// to display at html
-    res.status(400).json({ errors });
+    res.status(404).json({ errors });
   }
 
 }
@@ -179,6 +185,7 @@ module.exports.update = (req, res) => {
   dataBase.findByIdAndUpdate(req.params.name, req.body).then((items) => {
     res.send(items);
   }).catch((err) => {
+    res.sendStatus(404);
     console.log(err);
   })
 }

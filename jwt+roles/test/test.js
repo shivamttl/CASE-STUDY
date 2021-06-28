@@ -1,12 +1,8 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server=require("../app")
-//const database = require("../routes/dbRoute");
 chai.should(); 
-// expect
-// assert
 chai.use(chaiHttp);
-//get farmer
 describe('Get /showusers',()=>{
     it('it should get all data',(done)=>{
         chai.request(server)
@@ -14,7 +10,6 @@ describe('Get /showusers',()=>{
         .end((err,response)=>{
             response.should.have.status(200);
             response.body.should.be.a('array');
-            // response.body.length.should.be.eq(3);
         done();
         })
     });
@@ -31,19 +26,18 @@ describe('Get /showusers',()=>{
 });
 describe("GET /showuser/:id", () => {
     it("It should GET a task by ID", (done) => {
-        const taskId = "60cfa741b9cc9c42709cbd59";
+        const taskId = "60ce45b77c1d7241889dcdfe";
         chai.request(server)                
             .get("/showuser/" + taskId)
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
                 response.body.should.have.property('_id');
-                response.body.should.have.property('name');
             done();
             });
     }),
     it("It should NOT GET a task by ID", (done) => {
-        const taskId = "12355984589748";
+        const taskId = "12355748";
         chai.request(server)                
             .get("/showuser/" + taskId)
             .end((err, response) => {
@@ -76,7 +70,7 @@ describe("POST /createuser", () => {
             completed: false
         };
         chai.request(server)                
-            .post("/createuser")
+            .post("/create")
             .send(task)
             .end((err, response) => {
                 response.should.have.status(404);
@@ -88,7 +82,7 @@ describe("POST /createuser", () => {
      */
  describe("PUT /update/:name", () => {
     it("It should PUT an existing task", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e5";
+        const taskId = "60ce4a6011dacf0eac2de35f";
         const task = {
             email: "task@gmail.com",
             password:"fdfdf",
@@ -100,14 +94,12 @@ describe("POST /createuser", () => {
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
-                response.body.should.have.property('_id').eq("60d246cb6d38af4e5809f2e5");
-                response.body.should.have.property('name').eq("Task 5");
             done();
             });
     });
 
     it("It should NOT PUT ", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e7";
+        const taskId = "60d7";
         const task = {
             email: "task@gmail.com",
             password:"fdfdf",
@@ -117,7 +109,7 @@ describe("POST /createuser", () => {
             .put("/update/" + taskId)
             .send(task)
             .end((err, response) => {
-                response.should.have.status(400);
+                response.should.have.status(404);
             done();
             });
     });        
@@ -140,9 +132,9 @@ describe("DELETE /delete/:id", () => {
     });
 
     it("It should NOT DELETE a task that is not in the database", (done) => {
-        const taskId = "60d246cb6d38af4e5809f2e9";
+        const taskId = "60d24";
         chai.request(server)                
-            .delete("/delete/" + taskId)
+            .delete("/delet/" + taskId)
             .end((err, response) => {
                 response.should.have.status(404);
             done();
