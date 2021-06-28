@@ -73,8 +73,8 @@ module.exports.availableRoom = (req, res) => {
     })
   }
   module.exports.checkIn = (req, res) => {
-    const article={number:req.params.number};
-    axios.put("http://localhost:2000/room/checkIn"+req.params.number, article).then((response) => {
+    const number = req.params.number;
+    axios.put("http://localhost:2000/room/checkIn/"+number, number).then((response) => {
       var views = response.data;
       res.send(views);
     }).catch((err) => {
@@ -82,8 +82,9 @@ module.exports.availableRoom = (req, res) => {
         throw err;
     })
   }
+  //both ways work same
   module.exports.checkOut = (req, res) => {
-    axios.put("http://localhost:2000/room/checkOut"+req.params.number).then((response) => {
+    axios.put("http://localhost:2000/room/checkOut/"+req.params.number).then((response) => {
       var views = response.data;
       res.send(views);
     }).catch((err) => {
