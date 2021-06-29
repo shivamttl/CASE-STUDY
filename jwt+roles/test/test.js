@@ -9,7 +9,7 @@ describe('Get /showusers',()=>{
         .get('/showusers')
         .end((err,response)=>{
             response.should.have.status(200);
-            response.body.should.be.a('array');
+            response.body.should.be.a('object');
         done();
         })
     });
@@ -32,14 +32,14 @@ describe("GET /showuser/:id", () => {
             .end((err, response) => {
                 response.should.have.status(200);
                 response.body.should.be.a('object');
-                response.body.should.have.property('_id');
+             
             done();
             });
     }),
     it("It should NOT GET a task by ID", (done) => {
-        const taskId = "12355748";
+        const taskId = "125748";
         chai.request(server)                
-            .get("/showuser/" + taskId)
+            .get("/showuser" + taskId)
             .end((err, response) => {
                 response.should.have.status(404);
             done();
@@ -106,7 +106,7 @@ describe("POST /createuser", () => {
             role: "owner",
         };
         chai.request(server)                
-            .put("/update/" + taskId)
+            .put("/updat/" + taskId)
             .send(task)
             .end((err, response) => {
                 response.should.have.status(404);
